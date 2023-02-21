@@ -1,0 +1,6 @@
+SELECT sec_id, numbers from (SELECT takes.sec_id as sec_id, Count(takes.sec_id) as numbers from takes 
+JOIN section ON (takes.sec_id=section.sec_id 
+AND takes.course_id=section.course_id 
+AND takes.semester=section.semester AND takes.year=section.year)
+GROUP BY takes.sec_id) AS foo
+where numbers >= 19

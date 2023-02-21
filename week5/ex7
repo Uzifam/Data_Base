@@ -1,0 +1,6 @@
+Select number_students from
+(SELECT sec_id, Count(*) as number_students
+FROM takes
+WHERE semester = 'Fall' AND year = 2022
+GROUP BY sec_id) AS foo
+

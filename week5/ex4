@@ -1,0 +1,2 @@
+SELECT dept_name FROM course
+where course_id LIKE '%CS-1%'
