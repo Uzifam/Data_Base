@@ -1,0 +1,37 @@
+CREATE TABLE TeacherTb
+	(teacher_id Int,
+	 school VARCHAR(100),
+	 teacher VARCHAR(100),
+	PRIMARY KEY (teacher_id));
+
+CREATE TABLE CourseTb
+	(course_id Int,
+	 teacher VARCHAR(100),
+	 room VARCHAR(100),
+	 grade VARCHAR(100),
+	 book VARCHAR(100),
+	 course VARCHAR(100),
+	PRIMARY KEY(course_id));
+
+CREATE TABLE BookTb_2
+	(book VARCHAR(200),
+	 publisher VARCHAR(100),
+	 loanDate DATE,
+	PRIMARY KEY(book));
+
+INSERT INTO TeacherTb(teacher_id, school, teacher) 
+SELECT ROW_NUMBER() OVER (ORDER BY teacher) as teacher_id, school, teacher
+FROM loan_books
+GROUP BY (school, teacher)
+ON CONFLICT DO NOTHING;
+
+INSERT INTO CourseTb(course_id, teacher, room, grade, book, course) 
+SELECT ROW_NUMBER() OVER (ORDER BY teacher) as course_id, teacher, room, grade, book, course
+FROM loan_books
+GROUP BY (teacher, room, grade, book, course)
+ON CONFLICT DO NOTHING;
+
+INSERT INTO BookTb_2(book, publisher, loanDate) 
+SELECT book, publisher, loanDate
+FROM loan_books
+ON CONFLICT DO NOTHING;

@@ -1,0 +1,24 @@
+SELECT school, loandate, teacher FROM
+(SELECT school, loandate, teacher  FROM 
+(SELECT BookTb_2.book, BookTb_2.publisher, BookTb_2.loandate, SchoolBook.school, SchoolBook.teacher FROM BookTb_2
+JOIN 
+(SELECT TeacherTb.school, CourseTb.book, CourseTb.teacher FROM TeacherTb
+JOIN CourseTb ON TeacherTb.teacher = CourseTb.teacher) AS SchoolBook ON BookTb_2.book = SchoolBook.book)AS WorkModel
+WHERE school = 'Horizon Education Institute'
+ORDER BY loandate
+LIMIt 1) AS WorkM
+
+UNION 
+ 
+SELECT school, loandate, teacher FROM
+(SELECT school, loandate, teacher  FROM 
+(SELECT BookTb_2.book, BookTb_2.publisher, BookTb_2.loandate, SchoolBook.school, SchoolBook.teacher FROM BookTb_2
+JOIN 
+(SELECT TeacherTb.school, CourseTb.book, CourseTb.teacher FROM TeacherTb
+JOIN CourseTb ON TeacherTb.teacher = CourseTb.teacher) AS SchoolBook ON BookTb_2.book = SchoolBook.book)AS WorkModel
+WHERE school = 'Bright Institution'
+ORDER BY loandate
+LIMIt 1) AS WorkM
+
+
+

@@ -1,0 +1,5 @@
+Select orderId, SUM(itemPrice) 
+FROM (SELECT orderId, price * quantity AS itemPrice
+FROM OrderItemdb
+JOIN Itemdb ON OrderItemdb.itemId = Itemdb.itemId) AS S
+GROUP BY orderId;

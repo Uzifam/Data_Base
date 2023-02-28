@@ -1,0 +1,6 @@
+SELECT COUNT(*), school, publisher FROM 
+(SELECT BookTb_2.book, BookTb_2.publisher, BookTb_2.loandate, SchoolBook.school, SchoolBook.teacher FROM BookTb_2
+JOIN 
+(SELECT TeacherTb.school, CourseTb.book, CourseTb.teacher FROM TeacherTb
+JOIN CourseTb ON TeacherTb.teacher = CourseTb.teacher) AS SchoolBook ON BookTb_2.book = SchoolBook.book)AS WorkModel
+GROUP BY (school, publisher);

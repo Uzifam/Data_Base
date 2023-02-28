@@ -1,0 +1,43 @@
+CREATE TABLE OrderItemdb 
+	(orderId INT,
+	 itemId INT,
+	 quantity INT,
+	PRIMARY KEY (orderId, itemId));
+	
+CREATE TABLE Itemdb 
+	(itemName VARCHAR(15),
+	 itemId INT,
+	 price REAL,
+	PRIMARY KEY (itemId));
+	
+CREATE TABLE Customerdb 
+	(customerId INT,
+	 customerName VARCHAR(15),
+	 city VARCHAR(15),
+	PRIMARY KEY (customerId));
+	
+CREATE TABLE Orderdb 
+	(orderId INT,
+	 customerId INT,
+	 date DATE,
+	PRIMARY KEY (orderId));
+	
+INSERT INTO OrderItemdb(orderId, itemId, quantity) 
+SELECT orderId, itemId, quantity
+FROM orders
+ON CONFLICT DO NOTHING;
+
+INSERT INTO Itemdb(itemName, itemId, price) 
+SELECT itemName, itemId, price
+FROM orders
+ON CONFLICT DO NOTHING;
+
+INSERT INTO Customerdb(customerId, customerName, city) 
+SELECT customerId, customerName, city
+FROM orders
+ON CONFLICT DO NOTHING;
+
+INSERT INTO Orderdb(orderId, customerId, date) 
+SELECT orderId, customerId, date
+FROM orders
+ON CONFLICT DO NOTHING;

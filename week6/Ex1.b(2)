@@ -1,0 +1,11 @@
+SELECT customername, sumItems  FROM (SELECT sumItems, customername FROM
+(SELECT Orderdb.orderId, SumOrderingTable.sumItems, Orderdb.customerId FROM
+(Select orderId, SUM(itemPrice) as sumItems
+FROM (SELECT orderId, price * quantity AS itemPrice
+FROM OrderItemdb
+JOIN Itemdb ON OrderItemdb.itemId = Itemdb.itemId) AS S
+GROUP BY orderId) AS SumOrderingTable
+JOIN Orderdb ON Orderdb.orderId = SumOrderingTable.orderId) AS SumWithCustomer
+JOIN Customerdb ON Customerdb.customerId = SumWithCustomer.customerId) AS Resut
+ORDER BY sumItems DESC
+LIMIT 1
