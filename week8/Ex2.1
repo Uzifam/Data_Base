@@ -1,0 +1,9 @@
+EXPLAIN ANALYZE
+SELECT flm.film_id, flm.title, flm.rating, flm.category_id, flm.category_id, category.name FROM 
+(SELECT film.film_id, film.title, film.rating, film_category.category_id FROM film
+JOIN film_category ON film.film_id = film_category.film_id) AS flm
+JOIN category ON flm.category_id = category.category_id
+WHERE (rating = 'R' OR rating = 'PG-13') and (name = 'Horror' OR name = 'Sci-fi');
+
+--"Planning Time: 0.199 ms"
+-- The most most expensive step is finding films with special rating and categories, so we can indexin these atribures.

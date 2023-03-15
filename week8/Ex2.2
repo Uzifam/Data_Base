@@ -1,0 +1,16 @@
+EXPLAIN ANALYZE 
+SELECT city, max(amount) FROM (SELECT city, store_id, SUM(amount)as amount FROM (SELECT city.city, D.store_id, D.amount  FROM (SELECT address.city_id, C.store_id, C.amount
+FROM (SELECT B.address_id, B.store_id, payment.amount FROM 
+(SELECT A.address_id, A.store_id, rental.rental_id from 
+ (SELECT store.address_id, store.store_id, staff.staff_id FROM store 
+JOIN staff ON store.store_id = staff.store_id)AS A
+JOIN rental ON rental.staff_id = A.staff_id) AS B
+JOIN payment ON payment.rental_id = B.rental_id
+WHERE DATE_TRUNC('month', payment.payment_date + INTERVAL '1 month') >= (SELECT MAX(payment_date) FROM payment)) AS C
+JOIN address ON address.address_id = C.address_id) AS D
+JOIN city ON D.city_id = city.city_id) AS E
+GROUP BY (city, store_id)) AS F
+GROUP BY (city)
+--"Planning Time: 0.720 ms"
+-- The most most expensive step is finding dates, which was during the last month recorded. 
+-- We can Indexing those atributes. It's solve problem.

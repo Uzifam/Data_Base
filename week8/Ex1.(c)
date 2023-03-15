@@ -1,0 +1,2 @@
+CREATE INDEX idx_b_tree_for_name_2 ON CUSTOMER USING btree (name);
+CREATE INDEX idx_hash_name_2 ON CUSTOMER USING hash (name);

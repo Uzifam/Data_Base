@@ -1,0 +1,5 @@
+EXplain ANALYSE Select id, name from CUSTOMER 
+where id > 200
+
+/* If we take all elements from DB, then time doesn't change
+but when we take some data using id, time decreasе*/ 
