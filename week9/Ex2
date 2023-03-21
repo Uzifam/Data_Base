@@ -1,0 +1,20 @@
+CREATE OR REPLACE FUNCTION retrievecustomers(start INTEGER, ends INTEGER)
+RETURNS TABLE (
+    customer_id INTEGER,
+    first_name VARCHAR(45),
+    last_name VARCHAR(45),
+    email VARCHAR(50),
+    address_id SMALLINT
+) AS $$
+BEGIN
+    IF start < 0 OR start > 600 OR ends < 0 OR ends > 600 THEN
+        RAISE EXCEPTION 'Invalid start or end parameter. Start and end parameters must be between 0 and 600.';
+    END IF;
+
+    RETURN QUERY SELECT c.customer_id, c.first_name, c.last_name, c.email, c.address_id
+    FROM customer c
+    ORDER BY c.address_id
+    LIMIT ends - start + 1
+    OFFSET start - 1;
+END;
+$$ LANGUAGE plpgsql;

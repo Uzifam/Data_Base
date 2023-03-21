@@ -1,0 +1,2 @@
+ALTER TABLE address ADD latitude FLOAT(10);
+ALTER TABLE address ADD longitude FLOAT(10);
