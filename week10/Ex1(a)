@@ -1,0 +1,36 @@
+BEGIN;
+CREATE TABLE IF NOT EXISTS accounts (
+	id SERIAL PRIMARY KEY,
+	name VARCHAR(255),
+	credit INTEGER,
+	currency VARCHAR(255)
+);
+
+INSERT INTO accounts (name, credit, currency) VALUES
+	('Account 1', 1000, 'RUB'),
+	('Account 2', 1000, 'RUB'),
+	('Account 3', 1000, 'RUB');
+COMMIT;
+
+
+BEGIN;
+	SAVEPOINT t_rollback;
+	UPDATE accounts SET credit = credit - 500 WHERE id = 1;
+	UPDATE accounts SET credit = credit + 500 WHERE id = 3;
+	SAVEPOINT t1_rollback;
+
+	UPDATE accounts SET credit = credit - 700 WHERE id = 2;
+	UPDATE accounts SET credit = credit + 700 WHERE id = 1;
+	SAVEPOINT t2_rollback;
+
+
+	UPDATE accounts SET credit = credit - 100 WHERE id = 2;
+	UPDATE accounts SET credit = credit + 100 WHERE id = 3;
+	SAVEPOINT t3_rollback;
+
+	SELECT * FROM accounts;
+	ROLLBACK TO SAVEPOINT t3_rollback;
+	ROLLBACK TO SAVEPOINT t2_rollback;
+	ROLLBACK TO SAVEPOINT t1_rollback;
+	ROLLBACK TO SAVEPOINT t_rollback;
+COMMIT;

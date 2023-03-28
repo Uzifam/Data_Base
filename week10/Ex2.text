@@ -1,0 +1,21 @@
+With Read committed isolation level, each transaction sees only data committed by other transactions before it started. In the given scenario, T1 and T2 transactions are started at the same time. When T1 reads accounts with group_id=2, it will see only the 'mike' account as it is the only one with the group_id=2. Meanwhile, T2 moves 'bbrown' to group 2. When T1 reads accounts with group_id=2 again, it will still see only the 'mike' account. T1 updates the balance of 'mike' account by +15 and commits the transaction along with T2. As a result, the final table will have the following data:
+
+username | fullname | balance | group_id
+----------+------------------+---------+----------
+jones | Alice Jones | 82 | 1
+bitdiddl | Ben Bitdiddle | 65 | 1
+mike | Michael Dole | 88 | 2
+alyssa | Alyssa P. Hacker | 79 | 3
+bbrown | Bob Brown | 100 | 2
+
+With Repeatable read isolation level, each transaction sees a snapshot of the data at the beginning of the transaction and any changes made by concurrent transactions are not visible. In the given scenario, when T1 reads accounts with group_id=2, it will see only the 'mike' account as it is the only one with the group_id=2. Meanwhile, T2 moves 'bbrown' to group 2. When T1 reads accounts with group_id=2 again, it will still see only the 'mike' account. T1 updates the balance of 'mike' account by +15 and commits the transaction along with T2. As a result, the final table will have the following data:
+
+username | fullname | balance | group_id
+----------+------------------+---------+----------
+jones | Alice Jones | 82 | 1
+bitdiddl | Ben Bitdiddle | 65 | 1
+mike | Michael Dole | 88 | 2
+alyssa | Alyssa P. Hacker | 79 | 3
+bbrown | Bob Brown | 100 | 3
+
+In summary, with Read committed isolation level, T1 reads the changes made by T2 and updates the 'mike' account balance, while with Repeatable read isolation level, T1 reads only the original snapshot and updates the 'mike' account balance accordingly, regardless of the changes made by T2.

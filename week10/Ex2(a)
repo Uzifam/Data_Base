@@ -1,0 +1,20 @@
+BEGIN;
+	CREATE TABLE account (
+    	username VARCHAR(50) NOT NULL,
+    	fullname VARCHAR(100) NOT NULL,
+    	balance INTEGER NOT NULL,
+    	Group_id INTEGER
+	);
+COMMIT;
+
+BEGIN;
+	INSERT INTO account (username, fullname, balance, Group_id)
+	VALUES 
+    	('jones', 'Alice Jones', 82, 1),
+    	('bitdiddl', 'Ben Bitdiddle', 65, 1),
+    	('mike', 'Michael Dole', 73, 2),
+    	('alyssa', 'Alyssa P. Hacker', 79, 3),
+    	('bbrown', 'Bob Brown', 100, 3);
+COMMIT;
+
+SELECT * FROM account;
